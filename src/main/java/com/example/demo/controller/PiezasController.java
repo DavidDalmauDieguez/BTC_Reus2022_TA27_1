@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,14 +29,15 @@ public class PiezasController {
 
 	// Buscar las piezas por id
 	@GetMapping("/piezas/{id}")
-	public Piezas buscarPiezaCodigo(@PathVariable(name= "id")Long codigo) {
-		return piezasServiceImpl.buscarPiezas(codigo);		
+	public Piezas buscarPiezaCodigo(@PathVariable(name= "id")Long id) {
+		return piezasServiceImpl.buscarPiezas(id);		
 	}
 
 	// Eliminar una piezas
-	@GetMapping("/piezas/{id}")
-	public void eliminarPiezas(@PathVariable(name="id")Long codigo) {
-		piezasServiceImpl.eliminarPiezas(codigo);
+	@DeleteMapping("/piezas/{id}")
+	public void eliminarPiezas(@PathVariable(name="id")Long id) {
+		piezasServiceImpl.eliminarPiezas(id);
+		System.out.println("Se ha eliminado la pieza "+ id + " statisfactoriamente");
 	}
 
 	// Crear piezas
@@ -46,13 +48,12 @@ public class PiezasController {
 
 	// Modificar sala
 	@PutMapping("/piezas/{id}")
-	public Piezas modificarPiezas (@PathVariable(name="codigo")Long codigo, @RequestBody Piezas piezas) {
+	public Piezas modificarPiezas (@PathVariable(name="id")Long id, @RequestBody Piezas piezas) {
 		Piezas pieza_a_modificar = new Piezas();
 		Piezas modificado = new Piezas();
 
 		// Busco el id de la sala que quiero cambiar
-		pieza_a_modificar = piezasServiceImpl.buscarPiezas(codigo);
-
+		pieza_a_modificar = piezasServiceImpl.buscarPiezas(id);
 		pieza_a_modificar.setCodigo(piezas.getCodigo());
 		pieza_a_modificar.setNombre(piezas.getNombre());
 		pieza_a_modificar.setSuministra(piezas.getSuministra());

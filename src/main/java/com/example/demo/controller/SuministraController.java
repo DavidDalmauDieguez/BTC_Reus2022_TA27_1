@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,15 +30,16 @@ public class SuministraController {
 
 
 	// Buscar las proveedores por id
-	@GetMapping("/suminastra/{id}")
-	public Suministra buscarSuministraCodigo(@PathVariable(name= "codigoPieza")Long id) {
+	@GetMapping("/suministra/{id}")
+	public Suministra buscarSuministraCodigo(@PathVariable(name= "id") Long id) {
 		return suministraServiceImpl.buscarSuministra(id);		
 	}	
 
 	// Eliminar una proveedores
-	@GetMapping("/suministra/{id}")
+	@DeleteMapping("/suministra/{id}")
 	public void eliminarSuministra(@PathVariable(name="id")Long id) {
 		suministraServiceImpl.eliminarSuministra(id);
+		System.out.println("Se ha eliminado el suministro "+ id + " statisfactoriamente");
 	}
 
 	// Crear piezas
@@ -47,16 +49,16 @@ public class SuministraController {
 	}
 
 	// Modificar sala
-	@PutMapping("/suministra/{codigoPieza}")
-	public Suministra modificarSuministra (@PathVariable(name="codigoPieza")Long id, @RequestBody Suministra suministra) {
+	@PutMapping("/suministra/{id}")
+	public Suministra modificarSuministra (@PathVariable(name="id")Long id, @RequestBody Suministra suministra) {
 		Suministra suministra_a_modificar = new Suministra();
 		Suministra modificado = new Suministra();
 
 		// Busco el id de la sala que quiero cambiar
 		suministra_a_modificar = suministraServiceImpl.buscarSuministra(id);
-
-		suministra_a_modificar.setCodigoPieza(suministra.getCodigoPieza());
-		suministra_a_modificar.setIdProveedor(suministra.getIdProveedor());
+		suministra_a_modificar.setId(suministra.getId());
+		suministra_a_modificar.setPiezas(suministra.getPiezas());
+		suministra_a_modificar.setProveedores(suministra.getProveedores());
 		suministra_a_modificar.setPrecio(suministra.getPrecio());
 
 		// Modificado es = a los cambios aplicados
